@@ -147,7 +147,7 @@ Section "!ddclient" SecMain
   ; on uninstall, none of these shortcuts get deleted properly
   !insertmacro CreateInternetShortcut \
     "$SMPROGRAMS\$STARTMENU_FOLDER\ddclient website" \
-    "http://www.randomnoun.com/wp/something" \
+    "http://www.randomnoun.com/wp/2013/08/19/a-dynamic-dns-client-for-windows/" \
     "$INSTDIR\ddclient128.ico" "0"
   
   !insertmacro MUI_STARTMENU_WRITE_END
