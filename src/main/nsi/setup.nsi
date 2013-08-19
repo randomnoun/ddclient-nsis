@@ -259,15 +259,16 @@ Section "Uninstall"
 
   ; stop and remove service
   SimpleSC::StopService "ddclient" "" 30
+  Sleep 1000 
   SimpleSC::RemoveService "ddclient"
-  Sleep 2000 ; this is here to hopefully allow us to remove the .exe's below  
+  Sleep 1000
+  ; Sleep 2000 ; this is here to hopefully allow us to remove the .exe's below  
 
-  ;ADD YOUR OWN FILES HERE...
-  Delete $INSTDIR\ddclient.exe  ; these aren't deleted properly
+  ; this executable is (sometimes) still running at this stage, so doesn't get deleted
+  Delete $INSTDIR\ddclient.exe  
   Delete $INSTDIR\srvany.exe
   Delete $INSTDIR\ddclient128.ico
   Delete $INSTDIR\ddclient.conf        ; keep configuration around ?
-  ;Delete $INSTDIR\start-console.bat
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir "$INSTDIR"
@@ -320,7 +321,6 @@ startMenuDeleteLoopDone2:
 SectionEnd
 
 
-;!include "GetWindowsVersion.nsh"
 !include WinMessages.nsh
 
 
