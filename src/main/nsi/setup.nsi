@@ -20,9 +20,9 @@
   ;Name and file
   Name "ddclient"
   ;OutFile set by maven
-  ;OutFile "..\..\build\exe\Multipass-pre-alpha-v0.1.exe"
+  ;OutFile "..\..\build\exe\something-v0.1.exe"
 
-  ;Default installation folder
+  ;Default installation folder (32-bit)
   InstallDir "$PROGRAMFILES\ddclient"
 
   ;Get installation folder from registry if available
@@ -247,22 +247,9 @@ SectionEnd
   ;Language strings
   LangString DESC_SecMain ${LANG_ENGLISH} "The ddclient application"
 
-  ;LangString DESC_SecFTDI ${LANG_ENGLISH} "This option will install the FTDI USB and VCP drivers 2.08.02."
-  ;LangString DESC_SecMySQL ${LANG_ENGLISH} "This option will install MySQL 5.1.52. DO NOT perform this step if you already have a MySQL 5.1 database installed."
-  ;LangString DESC_SecChrome ${LANG_ENGLISH} "This option will install Chrome 8.0.552.215."
-  ;LangString DESC_SecWinAmp ${LANG_ENGLISH} "This option will install WinAMP 5.601 (and, unfortunately, all the miscellaneous guff that comes with it). Installing WinAMP will CLOSE all browser windows automatically."
-  ;LangString DESC_SecWinAmpDmxPlugin ${LANG_ENGLISH} "This option will install the WinAMP DMX-Web Plugin 1.0."
-  ;LangString DESC_SecWinAmpNgPlugin ${LANG_ENGLISH} "This option will install the WinAMP NGWinamp Plugin 1.1.0."
-
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
   !insertmacro MUI_DESCRIPTION_TEXT ${SecMain} $(DESC_SecMain)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecFTDI} $(DESC_SecFTDI)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecMySQL} $(DESC_SecMySQL)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecChrome} $(DESC_SecChrome)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecWinAmp} $(DESC_SecWinAmp)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecWinAmpDmxPlugin} $(DESC_SecWinAmpDmxPlugin)
-  ;!insertmacro MUI_DESCRIPTION_TEXT ${SecWinAmpNgPlugin} $(DESC_SecWinAmpNgPlugin)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -273,9 +260,10 @@ Section "Uninstall"
   ; stop and remove service
   SimpleSC::StopService "ddclient" "" 30
   SimpleSC::RemoveService "ddclient"
+  Sleep 2000 ; this is here to hopefully allow us to remove the .exe's below  
 
   ;ADD YOUR OWN FILES HERE...
-  Delete $INSTDIR\ddclient.exe
+  Delete $INSTDIR\ddclient.exe  ; these aren't deleted properly
   Delete $INSTDIR\srvany.exe
   Delete $INSTDIR\ddclient128.ico
   Delete $INSTDIR\ddclient.conf        ; keep configuration around ?
@@ -289,9 +277,9 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\$MUI_TEMP\ddclient website.url"
   SetShellVarContext all
   ; for some reason this is c:\users\knoxg\appdata\roaming\microsoft\windows\start menu\programs\ddclient\Uninstall.lnk
-  ; not                     C:\Users\knoxg\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\ddclient
-  ; or                      C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ddclient
-  MessageBox MB_OK|MB_ICONSTOP "Attempting to delete $SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"  
+  ; not                     C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ddclient
+  ; although some would argue that that's where it's supposed to be anyway.                      
+  ; MessageBox MB_OK|MB_ICONSTOP "Attempting to delete $SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"  
   Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$MUI_TEMP\Start ddclient console.lnk"
   Delete "$SMPROGRAMS\$MUI_TEMP\Start ddclient service.lnk"
