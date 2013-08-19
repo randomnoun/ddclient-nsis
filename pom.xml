@@ -1,0 +1,253 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.randomnoun.ddclient</groupId>
+  <artifactId>ddclient-nsis</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>ddclient.exe nsis installer</name>
+  
+  <parent>
+    <artifactId>parent-pom</artifactId>
+    <groupId>com.randomnoun.build</groupId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+
+  <!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
+  <properties>
+    <makensis.exe>C:\Program Files\NSIS\makensis.exe</makensis.exe>
+  </properties>
+ 
+  <ciManagement>
+    <system>bamboo</system>
+    <url>https://secure.randomnoun.com/bamboo/browse/RANDOMNOUN-DDCLIENTNSIS</url>
+  </ciManagement>
+  <inceptionYear>2013-08-18</inceptionYear>
+  <scm>
+    <url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</url>
+    <connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</connection>
+    <developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</developerConnection>
+  </scm>
+  <organization>
+    <name>randomnoun</name>
+    <url>http://www.randomnoun.com</url>
+  </organization>
+  
+  <build>
+    <plugins>
+
+      <!-- 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+              < ! - -  
+                <artifactItem>
+                  <groupId>com.randomnoun.dmx</groupId>
+                  <artifactId>dmx-web</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
+                  <type>war</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>dmx-web.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.dmx</groupId>
+                  <artifactId>javadoc-web</artifactId>
+                  <version>0.0.1-SNAPSHOT</version>
+                  <type>war</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>javadoc-web.war</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>apache-tomcat</artifactId>
+                  <version>6.0.14</version>
+                  <type>zip</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>apache-tomcat-6.0.14.zip</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>mysql-essential</artifactId>
+                  <version>5.1.52</version>
+                  <type>msi</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>mysql-essential-5.1.52-win32.msi</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>sun-java-jdk</artifactId>
+                  <version>1.6.0_18</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>jdk-6u18-windows-i586.exe</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>nsisunz</artifactId>
+                  <version>1.0</version>
+                  <type>dll</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>nsisunz.dll</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>ngwinamp</artifactId>
+                  <version>1.1.0</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>NGWinamp_Remote_Control.exe</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>winamp</artifactId>
+                  <version>5.601</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>winamp5601_full_emusic-7plus_en-us.exe</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>ftdi-drivers</artifactId>
+                  <version>2.08.02</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>CDM20802-ftdi-drivers.exe</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.nsis.resources</groupId>
+                  <artifactId>chrome-browser-standalone</artifactId>
+                  <version>8.0.552.215</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>ChromeBrowserStandalone.exe</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>net.sf.jacob-project</groupId>
+                  <artifactId>jacob</artifactId>
+                  <version>1.14.3</version>
+                  <classifier>x86</classifier>
+                  <type>dll</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>jacob-1.14.3-x86.dll</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.rxtx</groupId>
+                  <artifactId>rxtxSerial</artifactId>
+                  <version>2.1.7</version>
+                  <type>dll</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>rxtxSerial.dll</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>org.rxtx</groupId>
+                  <artifactId>rxtx</artifactId>
+                  <version>2.1.7</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>rxtx-2.1.7.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>mysql</groupId>
+                  <artifactId>mysql-connector-java</artifactId>
+                  <version>5.1.11</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>mysql-connector-java-5.1.11.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>net.sf.jacob-project</groupId>
+                  <artifactId>jacob</artifactId>
+                  <version>1.14.3</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>jacob-1.14.3.jar</destFileName>
+                </artifactItem>
+                <artifactItem>
+                  <groupId>com.randomnoun.dmx</groupId>
+                  <artifactId>dmx-winamp-vis</artifactId>
+                  <version>1.0.0-SNAPSHOT</version>
+                  <type>exe</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}</outputDirectory>
+                  <destFileName>DmxWebPlugin_100.exe</destFileName>
+                </artifactItem>
+              - - > 
+              </artifactItems>
+              
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+       -->
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>nsis-maven-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate-project</goal>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <makensisBin>${makensis.exe}</makensisBin>
+              <!--  can't handle paths with spaces in it :( -->
+              <!--  ${project.build.directory}/${project.build.finalName} -->
+              <outputFile>c:\installer\ddclient-${project.version}.exe</outputFile>
+              <setupScript>src/main/nsi/setup.nsi</setupScript>
+            </configuration>
+          </execution>
+          
+        </executions>
+      </plugin>
+      
+    </plugins>
+  </build>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>nexus-snapshots</id> 
+      <!--  <url>http://snapshots.repository.codehaus.org/</url> should be sent to mirror in settings.xml -->
+      <url>http://nexus.dev.randomnoun:8082/nexus/content/groups/public-snapshots</url>
+    </pluginRepository>
+  </pluginRepositories>
+  
+  <distributionManagement>
+    <repository>
+        <id>releases</id>
+        <name>randomnoun releases</name>
+        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>randomnoun snapshots</name>
+        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
+        <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+  
+</project>
+
