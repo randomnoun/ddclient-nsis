@@ -42,7 +42,7 @@
 ;Interface Settings
 
   !define MUI_ABORTWARNING
-  !define VERSION "1.0.0"
+  !define VERSION "1.0.1"
 
 
 ;!define MUI_PAGE_CUSTOMFUNCTION_SHOW myShowCallback
