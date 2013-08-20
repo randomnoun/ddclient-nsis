@@ -12,10 +12,10 @@
   !include "project.nsh"
 
   !addplugindir "..\..\..\target"
-  !addplugindir "." ; for SimpleSC.dll
+  !addplugindir "." ; for SimpleSC.dll and nsProcess.dlls
 
-; I imagine the needed nsProecss DLLs required for uninstallation are automatically built into 
-; the uninstaller. ha. ha. ha.
+; the needed nsProcess DLLs required for uninstallation are automatically built into 
+; the uninstaller. crikey.
 
 ;--------------------------------
 ;General
@@ -272,9 +272,9 @@ Section "Uninstall"
   ; this doesn't appear to fix it so trying this instaed
   
   ; R0 ?
-  ${nsProcess::CloseProcess} "ddclient.exe" $R0
-  MessageBox MB_OK "nsProcess::CloseProcess$\n$\nErrorlevel: [$R0]"
-  ${nsProcess::Unload}
+  nsProcess::_CloseProcess "ddclient.exe" $R0
+  ; MessageBox MB_OK "nsProcess::CloseProcess$\n$\nErrorlevel: [$R0]"
+  nsProcess::_Unload
   
   Delete $INSTDIR\ddclient.exe  
   Delete $INSTDIR\ddclient-noconsole.exe
