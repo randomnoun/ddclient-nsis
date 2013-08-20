@@ -3,6 +3,9 @@
 
 ; TODO: fix install service as custom user
 ; TODO: don't install service shortcuts when not installing service
+; TODO: support silent install - see http://nsis.sourceforge.net/Docs/Chapter4.html#4.12
+; also http://forums.winamp.com/showthread.php?t=274505
+
 
 ;--------------------------------
 ;Include Modern UI
