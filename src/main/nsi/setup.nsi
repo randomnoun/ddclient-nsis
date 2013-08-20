@@ -1,6 +1,9 @@
 ; ddclient desktop installer
 ; based on NSIS Modern User Interface example script written by Joost Verburg
 
+; TODO: fix install service as custom user
+; TODO: don't install service shortcuts when not installing service
+
 ;--------------------------------
 ;Include Modern UI
 
@@ -49,6 +52,8 @@
 
 ;--------------------------------
 ;Pages
+
+  !define MUI_FINISHPAGE_NOAUTOCLOSE
 
   !insertmacro MUI_PAGE_WELCOME
   ; !insertmacro MUI_PAGE_LICENSE "${NSISDIR}\Docs\Modern UI\License.txt"
@@ -231,7 +236,7 @@ lblInstallCustomUserService:
   ReadINIStr $0 "$PLUGINSDIR\select-serviceuser.ini" "Field 7" "State"
   ReadINIStr $1 "$PLUGINSDIR\select-serviceuser.ini" "Field 8" "State"
   DetailPrint "Installing service with custom user account"
-  SimpleSC::InstallService "ddclient" "ddclient Dynamic DNS Client" "16" "2" "$INSTDIR\srvany.exe" "" $0 $1
+  SimpleSC::InstallService "ddclient" "ddclient Dynamic DNS Client" "16" "2" "$INSTDIR\srvany.exe" "" "$0" "$1"
   IntCmp $0 0 +2
   MessageBox MB_OK|MB_ICONSTOP "Service installation failed: could not create service."
   WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "Application" "$INSTDIR\ddclient.exe"
