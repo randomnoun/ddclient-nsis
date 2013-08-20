@@ -628,6 +628,7 @@ my @opt = (
     [ "syslog",      "!",  "-{no}syslog           : log messages to syslog" ],
     [ "facility",    "=s", "-facility {type}      : log messages to syslog to facility {type}" ],
     [ "priority",    "=s", "-priority {pri}       : log messages to syslog with priority {pri}" ],
+    [ "appdatalog",  "!",  "-{no}appdatalog       : log messages to %LOCALAPPDATA%\\ddclient.log" ],
     [ "mail",        "=s", "-mail address         : e-mail messages to {address}" ],
     [ "mail-failure","=s", "-mail-failure address : e-mail messages for failed updates to {address}" ],
     [ "exec",        "!",  "-{no}exec             : do {not} execute; just show what would be done" ],
@@ -663,6 +664,7 @@ if (opt('help')) {
 }
 
 ## read config file because 'daemon' mode may be defined there.
+# NB: this sub may dump messages to stdout even if stdout is redirected later
 read_config(define($opt{'file'}, default('file')), \%config, \%globals);
 init_config();
 test_possible_ip()         if opt('query');
@@ -692,6 +694,13 @@ if (opt('foreground') || opt('force')) {
     open(STDOUT, ">/dev/null");
     open(STDERR, ">/dev/null");
     open(STDIN,  "</dev/null");
+}
+
+# redirect STDOUT/STDERR if we're logging to the local application data directory
+if (opt('appdatalog')) {
+    my $logfile = "$cachedir$program.log";
+    open(STDOUT, ">>$logfile");
+    open(STDERR, ">>$logfile");
 }
 
 # write out the pid file if we're daemon'ized
