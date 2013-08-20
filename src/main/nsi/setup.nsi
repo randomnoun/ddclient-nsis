@@ -14,6 +14,9 @@
   !addplugindir "..\..\..\target"
   !addplugindir "." ; for SimpleSC.dll
 
+; I imagine the needed nsProecss DLLs required for uninstallation are automatically built into 
+; the uninstaller. ha. ha. ha.
+
 ;--------------------------------
 ;General
 
@@ -108,6 +111,7 @@ Section "!ddclient" SecMain
 
   SetOutPath "$INSTDIR"
   File ..\..\..\src\main\resources\ddclient.exe
+  File ..\..\..\src\main\resources\ddclient-noconsole.exe
   File ..\..\..\src\main\resources\srvany.exe
   File ..\..\..\src\main\resources\ddclient128.ico
   ; File ..\..\..\src\main\resources\start-console.bat
@@ -203,7 +207,8 @@ lblInstallNetworkService:
   ; NB: cache should probably go into Local App folder.
   ; ddclient now stores it's cache by default in the Local AppData folder
   ; WriteRegStr HKEY_LOCAL_MACINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\" -cache $\"$INSTDIR\ddclient.cache$\""
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\""
+  ; WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
@@ -217,7 +222,7 @@ lblInstallLocalService:
   IntCmp $0 0 +2
   MessageBox MB_OK|MB_ICONSTOP "Service installation failed: could not create service."
   WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "Application" "$INSTDIR\ddclient.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
@@ -230,7 +235,7 @@ lblInstallCustomUserService:
   IntCmp $0 0 +2
   MessageBox MB_OK|MB_ICONSTOP "Service installation failed: could not create service."
   WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "Application" "$INSTDIR\ddclient.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
@@ -262,10 +267,17 @@ Section "Uninstall"
   Sleep 1000 
   SimpleSC::RemoveService "ddclient"
   Sleep 1000
-  ; Sleep 2000 ; this is here to hopefully allow us to remove the .exe's below  
-
-  ; this executable is (sometimes) still running at this stage, so doesn't get deleted
+  
+  ; I added the sleeps above since this executable is (sometimes) still running at this stage
+  ; this doesn't appear to fix it so trying this instaed
+  
+  ; R0 ?
+  ${nsProcess::CloseProcess} "ddclient.exe" $R0
+  MessageBox MB_OK "nsProcess::CloseProcess$\n$\nErrorlevel: [$R0]"
+  ${nsProcess::Unload}
+  
   Delete $INSTDIR\ddclient.exe  
+  Delete $INSTDIR\ddclient-noconsole.exe
   Delete $INSTDIR\srvany.exe
   Delete $INSTDIR\ddclient128.ico
   Delete $INSTDIR\ddclient.conf        ; keep configuration around ?
