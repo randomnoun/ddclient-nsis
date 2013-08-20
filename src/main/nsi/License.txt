@@ -130,3 +130,12 @@ Creative Commons is not a party to this Licence, and, to the full extent permitt
 
 Creative Commons may be contacted at http://creativecommons.org/.
 
+----
+
+This application and installer is derived from the perl ddclient package, found on sourceforge at https://sourceforge.net/projects/ddclient/
+The sourceforge page as at 2013-08-21 states that this project falls under the GNU General Public License version 2.0 (GPLv2)
+If you want the source code to this thing, email me at knoxg@randomnoun.com
+
+
+
+
