@@ -3,9 +3,9 @@
 
 ; TODO: fix install service as custom user
 ; TODO: don't install service shortcuts when not installing service
-; TODO: support silent install - see http://nsis.sourceforge.net/Docs/Chapter4.html#4.12
-; also http://forums.winamp.com/showthread.php?t=274505
-
+; silent install resources:
+;   http://nsis.sourceforge.net/Docs/Chapter4.html#4.12
+;   http://forums.winamp.com/showthread.php?t=274505
 
 ;--------------------------------
 ;Include Modern UI
@@ -16,6 +16,10 @@
   !include "internet-shortcut.nsh"
   !include LogicLib.nsh
   !include "project.nsh"
+  !include FileFunc.nsh
+  
+  !insertmacro GetParameters
+  !insertmacro GetOptions
 
   !addplugindir "..\..\..\target"
   !addplugindir "." ; for SimpleSC.dll and nsProcess.dlls
@@ -93,7 +97,101 @@ Function .onInit
   ;Extract InstallOptions INI files
   ; !insertmacro MUI_INSTALLOPTIONS_EXTRACT "AdditionalTasksPage.ini"  
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "select-ddserver.ini"
-  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "select-serviceuser.ini"   
+  !insertmacro MUI_INSTALLOPTIONS_EXTRACT "select-serviceuser.ini"
+  
+  var /GLOBAL cmdLineParams
+  Push $R0
+  ${GetParameters} $cmdLineParams
+  ClearErrors
+  
+  ${GetOptions} $cmdLineParams '/?' $R0
+  IfErrors +3 0
+  MessageBox MB_OK "Unattended Silent Installs:$\r$\n\
+    /S$\t$\t= Silent install$\r$\n\
+    /?$\t$\t= This help page.$\r$\n\
+    $\r$\n\
+    Settings for this machine:$\r$\n\
+    /HOSTNAME=xxx$\t= The DNS name of this machine$\r$\n\
+    $\r$\n\
+    Settings for Dynamic DNS server:$\r$\n\
+    /DDSERVER=xxx$\t= The name of the Dynamic DNS server$\r$\n\
+    /DDUSERNAME=xxx = Username authentication to the Dynamic DNS server$\r$\n\
+    /DDPASSWORD=xxx = Password authentication to the Dynamic DNS server$\r$\n\
+    $\r$\n\
+    Service settings:$\r$\n\
+    /SERVICEASNETWORKSERVICEUSER = Install ddclient as a service on this machine running as the Network Service account$\r$\n\
+    /SERVICEASLOCALSYSTEMUSER = Run as the Local System account$\r$\n\
+    /SERVICEASCUSTOMUSER = Run as a custom Windows user account$\r$\n\
+    /SERVICEUSERNAME=xxx = local user account name$\r$\n\
+    /SERVICEPASSWORD=xxx = local user account password$\r$\n\
+    /NOSERVICE$\t= Do not install ddclient as a service$\r$\n\
+    $\r$\n"
+  Abort
+  
+  Pop $R0
+  
+  ; /HOSTNAME=
+  ${GetOptions} $cmdLineParams /HOSTNAME= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 2" "State" '$R0'
+  
+  ; /DDSERVER=
+  ${GetOptions} $cmdLineParams /DDSERVER= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 4" "State" '$R0'
+   
+  ; /DDUSERNAME=
+  ${GetOptions} $cmdLineParams /DDUSERNAME= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 7" "State" '$R0'
+  
+  ; /DDPASSWORD=
+  ${GetOptions} $cmdLineParams /DDPASSWORD= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 8" "State" '$R0'
+  
+   ; radio buttons:
+  ; 2 - network service
+  ; 3 - local service
+  ; 4 - custom user (7, 8 = username,password text fields)
+  ; 9 - do not install as service
+  
+  ; /SERVICEASNETWORKSERVICEUSER (default)
+  ${GetOptions} $cmdLineParams /SERVICEASNETWORKSERVICEUSER $R0
+  IfErrors +3 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" ''
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" '1'
+
+  ; /SERVICEASLOCALSYSTEMUSER
+  ${GetOptions} $cmdLineParams /SERVICEASLOCALSYSTEMUSER $R0
+  IfErrors +3 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" ''
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 3" "State" '1'
+
+  ; /SERVICEASCUSTOMUSER
+  ${GetOptions} $cmdLineParams /SERVICEASCUSTOMUSER $R0
+  IfErrors +3 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" ''
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 4" "State" '1'
+  
+  ; /NOSERVICE
+  ${GetOptions} $cmdLineParams /NOSERVICE $R0
+  IfErrors +3 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" ''
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 9" "State" '1'
+
+  
+  ; /SERVICEUSERNAME
+  ${GetOptions} $cmdLineParams /SERVICEUSERNAME= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 7" "State" '$R0'
+
+  ; /SERVICEPASSWORD
+  ${GetOptions} $cmdLineParams /SERVICEPASSWORD= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 8" "State" '$R0'
+  
+     
 FunctionEnd
 
 Function DisplaySelectDdserverPage
@@ -188,14 +286,14 @@ Section "!ddclient" SecMain
   ; install service (depending on select-serviceuser.ini setting)
   ; radio buttons:
   ; 2 - network service
-  ; 3 - local service
+  ; 3 - local system
   ; 4 - custom user (7, 8 = username,password text fields)
   ; 9 - do not install as service
   ReadINIStr $0 "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State"
   StrCmp $0 "1" lblInstallNetworkService
 
   ReadINIStr $0 "$PLUGINSDIR\select-serviceuser.ini" "Field 3" "State"
-  StrCmp $0 "1" lblInstallLocalService
+  StrCmp $0 "1" lblInstallLocalSystemService
 
   ReadINIStr $0 "$PLUGINSDIR\select-serviceuser.ini" "Field 4" "State"
   StrCmp $0 "1" lblInstallCustomUserService
@@ -221,8 +319,8 @@ lblInstallNetworkService:
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
   
-lblInstallLocalService:
-  DetailPrint "Installing service with Local Service account"
+lblInstallLocalSystemService:
+  DetailPrint "Installing service with Local System account"
   ; 16 = SERVICE_WIN32_OWN_PROCESS 
   ; 2 = SERVICE_AUTO_START
   SimpleSC::InstallService "ddclient" "ddclient Dynamic DNS Client" "16" "2" "$INSTDIR\srvany.exe" "" "" ""
