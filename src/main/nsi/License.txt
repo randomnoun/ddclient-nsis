@@ -1,6 +1,6 @@
-Copyright © 2013 randomnoun - Creative Commons Attribution 3.0 Unported License 
+This software is licensed under the Simplified BSD License ("2-clause BSD license").
 
-Copyright (c) 2013, randomnoun
+Copyright © 2013, randomnoun  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
