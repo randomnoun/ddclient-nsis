@@ -7,11 +7,12 @@
 #
 # Author: Paul Burry (paul+ddclient@burry.ca)
 # ddclient-developers: see https://sourceforge.net/project/memberlist.php?group_id=116817
-#
 # website: http://ddclient.sf.net
-#
 # Support for multiple IP numbers added by
 # Astaro AG, Ingo Schwarze <ischwarze-OOs/4mkCeqbQT0dZR+AlfA@public.gmane.org> September 16, 2008
+#
+# This version modified for Windows by Greg Knox ( knoxg@randomnoun.com )
+# randomnoun v1 website: http://www.randomnoun.com/wp/2013/08/19/a-dynamic-dns-client-for-windows/
 #
 ######################################################################
 require 5.004;
@@ -19,6 +20,7 @@ use strict;
 use Getopt::Long;
 use Sys::Hostname;
 use IO::Socket;
+use Digest::SHA1;  # as requested by Jeremy Rimpo 
 use Win32 qw(CSIDL_LOCAL_APPDATA);
 
 my ($VERSION) = q$Revision$ =~ /(\d+)/;
