@@ -14,6 +14,7 @@
 
   !include "MUI.nsh"
   !include "internet-shortcut.nsh"
+  !include nsDialogs.nsh
   !include LogicLib.nsh
   !include "project.nsh"
   !include FileFunc.nsh
@@ -67,7 +68,7 @@
   !insertmacro MUI_PAGE_LICENSE "License.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
-Page custom DisplaySelectDdserverPage
+Page custom DisplaySelectDdserverPage LeaveSelectDdserverPage
 Page custom DisplaySelectServiceuserPage
 
   ;Start Menu Folder Page Configuration
@@ -115,6 +116,8 @@ Function .onInit
     $\r$\n\
     Settings for Dynamic DNS server:$\r$\n\
     /DDSERVER=xxx$\t= The name of the Dynamic DNS server$\r$\n\
+    /DDCONNECTION=xxx = HTTP or HTTPS (default HTTP)$\r$\n\
+    /DDPROTOCOL=xxx = One of: concont, dnspark, dslreports1, dtdns, dyndns1, dyndns2, easydns, freedns, hammernode1, namecheap, noip, sitelutions, zoneedit1 (default dyndns2)$\r$\n\
     /DDUSERNAME=xxx = Username authentication to the Dynamic DNS server$\r$\n\
     /DDPASSWORD=xxx = Password authentication to the Dynamic DNS server$\r$\n\
     $\r$\n\
@@ -149,6 +152,18 @@ Function .onInit
   ${GetOptions} $cmdLineParams /DDPASSWORD= $R0
   IfErrors +2 0
   WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 8" "State" '$R0'
+
+  ; these field numbers will probably change to fix the tab order  
+  ; /DDCONNECTION
+  ${GetOptions} $cmdLineParams /DDCONNECTION= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 10" "State" '$R0'
+  
+  ; /DDPROTOCOL
+  ${GetOptions} $cmdLineParams /DDPROTOCOL= $R0
+  IfErrors +2 0
+  WriteINIStr "$PLUGINSDIR\select-ddserver.ini" "Field 12" "State" '$R0'
+  
   
    ; radio buttons:
   ; 2 - network service
@@ -180,7 +195,6 @@ Function .onInit
   WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 2" "State" ''
   WriteINIStr "$PLUGINSDIR\select-serviceuser.ini" "Field 9" "State" '1'
 
-  
   ; /SERVICEUSERNAME
   ${GetOptions} $cmdLineParams /SERVICEUSERNAME= $R0
   IfErrors +2 0
@@ -197,6 +211,47 @@ FunctionEnd
 Function DisplaySelectDdserverPage
   !insertmacro MUI_HEADER_TEXT "Select Dynamic DNS server" "An external server must be configured in order to provide Dynamic DNS services"
   !insertmacro MUI_INSTALLOPTIONS_DISPLAY "select-ddserver.ini"
+FunctionEnd
+
+; leave function is also called during control NOTIFY events (set for Field 12 (Dynamic DNS Protocol))  
+Function LeaveSelectDdserverPage
+  ; find out which field event called us 0 = next button called us
+  !insertmacro MUI_INSTALLOPTIONS_READ $R0 "select-ddserver.ini" "Settings" "State"
+  ${If} $R0 == 12  ; field 12
+    !insertmacro MUI_INSTALLOPTIONS_READ $R0 "select-ddserver.ini" "Field 12" "State"
+    readinistr $1 "$PLUGINSDIR\select-ddserver.ini" "Field 13" "HWND"
+    ; concont|dnspark|dslreports1|dtdns|dyndns1|dyndns2|easydns|freedns|hammernode1|namecheap|noip|sitelutions|zoneedit1
+    ${If} $R0 == 'concont'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'concont' protocol is the protocol used by the content management system ConCont's dydns module. This is currently used by the free dynamic DNS service offered by Tyrmida at www.dydns.za.net"
+    ${ElseIf} $R0 == 'dnspark'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dnspark' protocol is used by DNS service offered by www.dnspark.com."
+    ${ElseIf} $R0 == 'dslreports1'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dslreports1' protocol is used by a free DSL monitoring service offered by www.dslreports.com."
+    ${ElseIf} $R0 == 'dtdns'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dtdns' protocol is the protocol used by the dynamic hostname services of the 'DtDNS' dns services. This is currently used by the free dynamic DNS service offered by www.dtdns.com."
+    ${ElseIf} $R0 == 'dyndns1'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns1' protocol is a deprecated protocol used by the free dynamic DNS service offered by www.dyndns.org. The 'dyndns2' should be used to update the www.dyndns.org service.  However, other services are also using this protocol so support is still provided by ddclient."
+    ${ElseIf} $R0 == 'dyndns2'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns2' protocol is a newer low-bandwidth protocol used by a free dynamic DNS service offered by www.dyndns.org.  It supports features of the older 'dyndns1' in addition to others."
+    ${ElseIf} $R0 == 'easydns'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'easydns' protocol is used by the for fee DNS service offered by www.easydns.com."
+    ${ElseIf} $R0 == 'freedns'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'freedns' protocol is used by DNS services offered by freedns.afraid.org."
+    ${ElseIf} $R0 == 'hammernode1'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'hammernode1' protocol is the protocol used by the free dynamic DNS service offered by Hammernode at www.hn.org"
+    ${ElseIf} $R0 == 'namecheap'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'namecheap' protocol is used by DNS service offered by www.namecheap.com."
+    ${ElseIf} $R0 == 'noip'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'No-IP Compatible' protocol is used to make dynamic dns updates over an http request.  Details of the protocol are outlined at: http://www.no-ip.com/integrate/"
+    ${ElseIf} $R0 == 'sitelutions'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'sitelutions' protocol is used by DNS services offered by www.sitelutions.com."
+    ${ElseIf} $R0 == 'zoneedit1'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'zoneedit1' protocol is used by a DNS service offered by www.zoneedit.com."
+    ${Else}
+      ; MessageBox MB_OK "Invalid protocol selected"
+    ${EndIf}  
+    Abort
+  ${EndIf}
 FunctionEnd
 
 Function DisplaySelectServiceuserPage
@@ -253,7 +308,7 @@ Section "!ddclient" SecMain
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop ddclient service.lnk" "$SYSDIR\net.exe" "stop ddclient"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Open ddclient.conf in notepad.lnk" "notepad.exe" "$INSTDIR\ddclient.conf"
 
-  ; for some reason the following goes into the user's startmenu folder, the above go into the all users startmenu folder
+  ; for some reason the following goes into the user's startmenu folder, the above go into the all users startmenu folder.
   ; on uninstall, none of these shortcuts get deleted properly
   !insertmacro CreateInternetShortcut \
     "$SMPROGRAMS\$STARTMENU_FOLDER\ddclient website" \
@@ -269,16 +324,28 @@ Section "!ddclient" SecMain
   FileWrite $1 "#$\r$\n"
   FileWrite $1 "daemon=5m$\r$\n"
   FileWrite $1 "use=web$\r$\n"
-  
+
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 4" "State"
   FileWrite $1 "web=$0/nic/checkip.html$\r$\n"
   FileWrite $1 "server=$0$\r$\n"
+  ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 12" "State"
+  FileWrite $1 "protocol=$0 "
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 7" "State"
-  FileWrite $1 "protocol=dyndns2 login=$0, "
+  FileWrite $1 " login=$0, "
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 8" "State"
   FileWrite $1 "password=$0 "
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 2" "State"
   FileWrite $1 "$0$\r$\n"
+  
+  ; HTTP/HTTPS, convert to 'no'/'yes'
+  ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 10" "State"
+  ${If} $0 == 'HTTP'
+    FileWrite $1 "ssl=no$\r$\n"
+  ${ElseIf} $0 == 'HTTPS'
+    FileWrite $1 "ssl=yes$\r$\n"
+  ${EndIf}  
+  
+  
   FileClose $1
 
   
