@@ -1008,14 +1008,15 @@ sub _read_config {
     }
     # Check for only owner has any access to config file
     my ($dev, $ino, $mode, @statrest) = stat(FD);
-    if ($mode & 077) {                          
-	if (-f FD && (chmod 0600, $file)) {
-	    warning("file $file must be accessible only by its owner (fixed).");
-	} else {
-	    # fatal("file $file must be accessible only by its owner.");
-	    warning("file $file must be accessible only by its owner.");
-	}
-    }
+    # knoxg: removed permission warnings (TODO: possibly only do this on Windows platforms)
+    #if ($mode & 077) {                          
+	#if (-f FD && (chmod 0600, $file)) {
+	#    warning("file $file must be accessible only by its owner (fixed).");
+	#} else {
+	#    # fatal("file $file must be accessible only by its owner.");
+	#    warning("file $file must be accessible only by its owner.");
+	#}
+    #}
 
     local $lineno       = 0;
     my    $continuation = '';
