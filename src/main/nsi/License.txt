@@ -1,6 +1,6 @@
 This software is licensed under the Simplified BSD License ("2-clause BSD license").
 
-Copyright © 2013, randomnoun  
+Copyright ï¿½ 2013-2014, randomnoun  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
