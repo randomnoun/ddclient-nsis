@@ -230,9 +230,9 @@ Function LeaveSelectDdserverPage
     ${ElseIf} $R0 == 'dtdns'
       SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dtdns' protocol is the protocol used by the dynamic hostname services of the 'DtDNS' dns services. This is currently used by the free dynamic DNS service offered by www.dtdns.com."
     ${ElseIf} $R0 == 'dyndns1'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns1' protocol is a deprecated protocol used by the free dynamic DNS service offered by www.dyndns.org. The 'dyndns2' should be used to update the www.dyndns.org service.  However, other services are also using this protocol so support is still provided by ddclient."
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns1' protocol is a deprecated protocol used by the used-to-be-free dynamic DNS service offered by www.dyndns.org. The 'dyndns2' should be used to update the www.dyndns.org service.  However, other services are also using this protocol so support is still provided by ddclient."
     ${ElseIf} $R0 == 'dyndns2'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns2' protocol is a newer low-bandwidth protocol used by a free dynamic DNS service offered by www.dyndns.org.  It supports features of the older 'dyndns1' in addition to others."
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns2' protocol is a newer low-bandwidth protocol used by the used-to-be-free dynamic DNS service offered by www.dyndns.org. It supports features of the older 'dyndns1' in addition to others.$\r$\nThe namingwords.com Dynamic DNS server supports this protocol."
     ${ElseIf} $R0 == 'easydns'
       SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'easydns' protocol is used by the for fee DNS service offered by www.easydns.com."
     ${ElseIf} $R0 == 'freedns'
