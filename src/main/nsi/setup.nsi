@@ -10,9 +10,11 @@
 ;--------------------------------
 ;Include Modern UI
 
-  !AddIncludeDir "..\..\..\target"
+  ; building from src/main/nsi or target/main/nsi should have same directory depth
+  ; it's entirely possible that PROJECT_VERSION is already set here in project.nsh anyway.
+  !AddIncludeDir "..\..\..\target"    
 
-  !include "MUI.nsh"
+  !include "MUI.nsh"    
   !include "internet-shortcut.nsh"
   !include nsDialogs.nsh
   !include LogicLib.nsh
@@ -53,7 +55,7 @@
 ;Interface Settings
 
   !define MUI_ABORTWARNING
-  !define VERSION "1.1.0"
+  !define VERSION "MAVEN_VAR{project.version}"
 
 
 ;!define MUI_PAGE_CUSTOMFUNCTION_SHOW myShowCallback
