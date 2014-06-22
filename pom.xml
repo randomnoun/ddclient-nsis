@@ -15,7 +15,7 @@
   <!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
   <properties>
     <makensis.exe>C:\Program Files\NSIS\makensis.exe</makensis.exe>
-    <perl.exe>C:\Perl64\bin\perl.exe</perl.exe>
+    <perl.exe>C:\Perl\bin\perl.exe</perl.exe>
   </properties>
  
   <ciManagement>
