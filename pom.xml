@@ -9,7 +9,7 @@
   <parent>
     <artifactId>parent-pom</artifactId>
     <groupId>com.randomnoun.build</groupId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.6</version>
   </parent>
 
   <!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
