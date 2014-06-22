@@ -273,8 +273,8 @@ Section "!ddclient" SecMain
   SectionIn RO
 
   SetOutPath "$INSTDIR"
-  File ..\..\..\src\main\resources\ddclient.exe
-  File ..\..\..\src\main\resources\ddclient-noconsole.exe
+  File ..\..\..\target\ddclient.exe
+  File ..\..\..\target\ddclient-noconsole.exe
   File ..\..\..\src\main\resources\srvany.exe
   File ..\..\..\src\main\resources\ddclient128.ico
   ; File ..\..\..\src\main\resources\start-console.bat
