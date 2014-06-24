@@ -1,4 +1,12 @@
+echo off
+rem make-ddclient-exe.bat
+rem $Id$
+rem
+rem Batch file to compile the ddclient perl source into a gui and console .exe files, then post-process
+rem these files to add Windows icon and version resources.
+ 
 
+rem parameters are set from within mvn
 set DDCLIENT_VERSION=%1
 
 rem see http://search.cpan.org/~rschupp/PAR-Packer-1.014/lib/pp.pm
