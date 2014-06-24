@@ -55,7 +55,7 @@
 ;Interface Settings
 
   !define MUI_ABORTWARNING
-  !define VERSION "MAVEN_VAR{project.version}"
+  !define VERSION "${PROJECT_VERSION}"
 
 
 ;!define MUI_PAGE_CUSTOMFUNCTION_SHOW myShowCallback

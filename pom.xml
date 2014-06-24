@@ -35,50 +35,9 @@
   
   <build>
 
-  <resources>
-        <resource>
-            <filtering>true</filtering>
-            <directory>src/main/nsi</directory>
-            <includes>
-                <include>setup.nsi</include>
-            </includes>
-        </resource>
-        <resource>
-            <filtering>false</filtering>
-            <directory>src/main/nsi</directory>
-            <excludes>
-                <exclude>setup.nsi</exclude>
-            </excludes>
-        </resource>
-        
-    </resources>
-
     <plugins>
 
 
-      <!-- NSIS already uses ${xxx} notation, so we're going to use MAVEN_VAR{xxx} notation instead -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>resources</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <outputDirectory>${project.build.directory}/main/nsi</outputDirectory>
-          <useDefaultDelimiters>false</useDefaultDelimiters>
-          <delimiters>
-            <delimiter>MAVEN_VAR{*}</delimiter> <!--  ${MAVEN_*} doesn't work here (expanded by the pom.xml parser?) -->
-          </delimiters>
-          <encoding>UTF-8</encoding>
-        </configuration>
-      </plugin>
-  
   <!-- this would be 2 lines in a Makefile. Progress. -->
   <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -121,7 +80,7 @@
               <!--  ${project.build.directory}/${project.build.finalName} -->
               <outputFile>c:\installer\ddclient-${project.version}.exe</outputFile>
               <!-- modified setup.nsi after maven resource filtering -->
-              <setupScript>${project.build.directory}/main/nsi/setup.nsi</setupScript>
+              <setupScript>${project.basedir}/src/main/nsi/setup.nsi</setupScript>
             </configuration>
           </execution>
           
