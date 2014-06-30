@@ -463,6 +463,15 @@ Section "Uninstall"
   !insertmacro MUI_STARTMENU_GETFOLDER Application $MUI_TEMP
   SetShellVarContext current
   Delete "$SMPROGRAMS\$MUI_TEMP\ddclient website.url"
+  
+  ; on W7, these files are in all, but in XP these files are in current
+  Delete "$SMPROGRAMS\$MUI_TEMP\Uninstall.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Start ddclient console.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Start ddclient service.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Stop ddclient service.lnk"
+  Delete "$SMPROGRAMS\$MUI_TEMP\Open ddclient.conf in notepad.lnk"
+  
+  ; so let's just delete them from both
   SetShellVarContext all
   ; for some reason this is c:\users\knoxg\appdata\roaming\microsoft\windows\start menu\programs\ddclient\Uninstall.lnk
   ; not                     C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ddclient
