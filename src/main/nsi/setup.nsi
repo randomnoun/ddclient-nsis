@@ -225,6 +225,8 @@ Function LeaveSelectDdserverPage
     ; concont|dnspark|dslreports1|dtdns|dyndns1|dyndns2|easydns|freedns|hammernode1|namecheap|noip|sitelutions|zoneedit1
     ${If} $R0 == 'concont'
       SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'concont' protocol is the protocol used by the content management system ConCont's dydns module. This is currently used by the free dynamic DNS service offered by Tyrmida at www.dydns.za.net"
+    ${ElseIf} $R0 == 'changeip'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'changeip' protocol is used by DNS services offered by changeip.com."
     ${ElseIf} $R0 == 'dnspark'
       SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dnspark' protocol is used by DNS service offered by www.dnspark.com."
     ${ElseIf} $R0 == 'dslreports1'
