@@ -30,7 +30,7 @@ use Win32 qw(CSIDL_LOCAL_APPDATA);
 
 my ($VERSION) = q$Revision$ =~ /(\d+)/;
 
-my $version  = "3.8.2";
+my $version  = "3.8.3";
 
 # broken on win32
 #my $programd  = $0; 
