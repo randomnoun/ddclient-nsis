@@ -1,115 +1,167 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.randomnoun.ddclient</groupId>
-  <artifactId>ddclient-nsis</artifactId>
-  <version>1.5.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>ddclient.exe nsis installer</name>
-  
-  <parent>
-    <artifactId>parent-pom</artifactId>
-    <groupId>com.randomnoun.build</groupId>
-    <version>1.6</version>
-  </parent>
-
-  <!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
-  <properties>
-    <makensis.exe>C:\Program Files\NSIS\makensis.exe</makensis.exe>
-    <perl.exe>C:\Perl\bin\perl.exe</perl.exe>
-  </properties>
- 
-  <ciManagement>
-    <system>bamboo</system>
-    <url>https://secure.randomnoun.com/bamboo/browse/RANDOMNOUN-DDCLIENTNSIS</url>
-  </ciManagement>
-  <inceptionYear>2013-08-18</inceptionYear>
-  <scm>
-    <url>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</url>
-    <connection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</connection>
-    <developerConnection>scm:cvs:pserver:vmaint:vmaint@cvs.dev.randomnoun:/randomnoun:ddclient-nsis</developerConnection>
-  </scm>
-  <organization>
-    <name>randomnoun</name>
-    <url>http://www.randomnoun.com</url>
-  </organization>
-  
-  <build>
-
-    <plugins>
-
-
-  <!-- this would be 2 lines in a Makefile. Progress. -->
-  <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2</version>
-            <executions>
-              <execution>
-                <id>runbatchfile</id>
-                <phase>compile</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <executable>${project.basedir}/src/main/perl/make-ddclient-exe.bat</executable>
-              <workingDirectory>src/main/perl</workingDirectory>
-              <environmentVariables>
-                 <perl>${perl.exe}</perl>
-              </environmentVariables>
-              <arguments>
-                <argument>${project.version}</argument>
-              </arguments>
-            </configuration>
-          </plugin>
-          
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>nsis-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>generate-project</goal>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <makensisBin>${makensis.exe}</makensisBin>
-              <!--  can't handle paths with spaces in it :( -->
-              <!--  ${project.build.directory}/${project.build.finalName} -->
-              <outputFile>c:\installer\ddclient-${project.version}.exe</outputFile>
-              <!-- modified setup.nsi after maven resource filtering -->
-              <setupScript>${project.basedir}/src/main/nsi/setup.nsi</setupScript>
-            </configuration>
-          </execution>
-          
-        </executions>
-      </plugin>
-      
-    </plugins>
-  </build>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>nexus-snapshots</id> 
-      <!--  <url>http://snapshots.repository.codehaus.org/</url> should be sent to mirror in settings.xml -->
-      <url>http://nexus.dev.randomnoun:8082/nexus/content/groups/public-snapshots</url>
-    </pluginRepository>
-  </pluginRepositories>
-  
-  <distributionManagement>
-    <repository>
-        <id>releases</id>
-        <name>randomnoun releases</name>
-        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>randomnoun snapshots</name>
-        <url>http://nexus.dev.randomnoun:8082/nexus/content/repositories/snapshots/</url>
-        <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
-  
+	<modelVersion>
+		4.0.0
+	</modelVersion>
+	<groupId>
+		com.randomnoun.ddclient
+	</groupId>
+	<artifactId>
+		ddclient-nsis
+	</artifactId>
+	<version>
+		1.5.0-SNAPSHOT
+	</version>
+	<packaging>
+		pom
+	</packaging>
+	<name>
+		ddclient.exe nsis installer
+	</name>
+	<parent>
+		<artifactId>
+			parent-pom
+		</artifactId>
+		<groupId>
+			com.randomnoun.build
+		</groupId>
+		<version>
+			1.22
+		</version>
+	</parent>
+	<!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
+	<properties>
+		<makensis.exe>
+			C:\Program Files\NSIS\makensis.exe
+		</makensis.exe>
+		<perl.exe>
+			C:\Perl\bin\perl.exe
+		</perl.exe>
+	</properties>
+	<ciManagement>
+		<system>
+			bamboo
+		</system>
+		<url>
+			https://secure.randomnoun.com/bamboo/browse/RANDOMNOUN-DDCLIENTNSIS
+		</url>
+	</ciManagement>
+	<inceptionYear>
+		2013-08-18
+	</inceptionYear>
+	<scm>
+		<connection>
+			scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/ddclient-nsis.git
+		</connection>
+		<developerConnection>
+			scm:git:ssh://git@gitlab.dev.randomnoun:2222/randomnoun/ddclient-nsis.git
+		</developerConnection>
+		<url>
+			http://gitlab.dev.randomnoun/randomnoun/ddclient-nsis
+		</url>
+	</scm>
+	<organization>
+		<name>
+			randomnoun
+		</name>
+		<url>
+			http://www.randomnoun.com
+		</url>
+	</organization>
+	<build>
+		<plugins>
+			<!-- this would be 2 lines in a Makefile. Progress. -->
+			<plugin>
+				<groupId>
+					org.codehaus.mojo
+				</groupId>
+				<artifactId>
+					exec-maven-plugin
+				</artifactId>
+				<version>
+					1.2
+				</version>
+				<executions>
+					<execution>
+						<id>
+							runbatchfile
+						</id>
+						<phase>
+							compile
+						</phase>
+						<goals>
+							<goal>
+								exec
+							</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>
+						${project.basedir}/src/main/perl/make-ddclient-exe.bat
+					</executable>
+					<workingDirectory>
+						src/main/perl
+					</workingDirectory>
+					<environmentVariables>
+						<perl>
+							${perl.exe}
+						</perl>
+					</environmentVariables>
+					<arguments>
+						<argument>
+							${project.version}
+						</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>
+					org.codehaus.mojo
+				</groupId>
+				<artifactId>
+					nsis-maven-plugin
+				</artifactId>
+				<version>
+					1.0-SNAPSHOT
+				</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>
+								generate-project
+							</goal>
+							<goal>
+								compile
+							</goal>
+						</goals>
+						<configuration>
+							<makensisBin>
+								${makensis.exe}
+							</makensisBin>
+							<!--  can't handle paths with spaces in it :( -->
+							<!--  ${project.build.directory}/${project.build.finalName} -->
+							<outputFile>
+								c:\installer\ddclient-${project.version}.exe
+							</outputFile>
+							<!-- modified setup.nsi after maven resource filtering -->
+							<setupScript>
+								${project.basedir}/src/main/nsi/setup.nsi
+							</setupScript>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>
+				nexus-snapshots
+			</id>
+			<!--  <url>http://snapshots.repository.codehaus.org/</url> should be sent to mirror in settings.xml -->
+			<url>
+				http://nexus2.dev.randomnoun/nexus/content/groups/public-snapshots
+			</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
-
