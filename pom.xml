@@ -31,10 +31,10 @@
 	<!-- may be overriden by machine-local ~/.m2/settings.xml properties -->
 	<properties>
 		<makensis.exe>
-			C:\Program Files\NSIS\makensis.exe
+			C:\Program Files (x86)\NSIS\makensis.exe
 		</makensis.exe>
 		<perl.exe>
-			C:\Perl\bin\perl.exe
+			C:\perl\Strawberry\perl\bin\perl.exe
 		</perl.exe>
 	</properties>
 	<ciManagement>
