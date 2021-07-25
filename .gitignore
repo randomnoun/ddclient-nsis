@@ -2,3 +2,4 @@
 /target/**
 /.project
 /.settings/
+/src/main/perl/ResourceHacker.ini
