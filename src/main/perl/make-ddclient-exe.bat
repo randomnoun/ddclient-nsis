@@ -16,7 +16,7 @@ rem NB(3): this doesn't seem to work in 64-bit perl, either
 rem NB(4): verpatch appears to trim the last character from the strings here in procexp (but not in windows explorer)
 
 rem verpatch sourced from http://www.codeproject.com/Articles/37133/Simple-Version-Resource-Tool-for-Windows
-rem rcedit sourced from https://github.com/electron/rcedit/releases/tag/v1.1.1
+rem resourcehacker sourced from http://angusj.com/resourcehacker/#download
 
 rem --icon no longer supported in pp (see http://stackoverflow.com/questions/22607334 )
 rem %PERL% %PERL%\..\..\site\bin\pp --icon "..\resources\ddclient32.ico" -o ..\..\..\target\ddclient-noicon.exe ddclient
