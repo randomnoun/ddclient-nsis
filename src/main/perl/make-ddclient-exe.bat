@@ -23,7 +23,7 @@ rem %PERL% %PERL%\..\..\site\bin\pp --icon "..\resources\ddclient32.ico" -o ..\.
 rem %PERL% %PERL%\..\..\site\bin\pp --gui --icon "..\resources\ddclient32.ico" -o ..\..\..\target\ddclient-noconsole-noicon.exe ddclient
 
 echo Compiling ddclient.exe
-%PERL% %PERL%\..\..\site\bin\pp -o ..\..\..\target\ddclient-noicon.exe ddclient
+%PERL% %PERL%\..\..\site\bin\pp  --link %PERL%\..\..\..\c\bin\libssl-1_1-x64__.dll --link %PERL%\..\..\..\c\bin\zlib1__.dll --link %PERL%\..\..\..\c\bin\libcrypto-1_1-x64__.dll -o ..\..\..\target\ddclient-noicon.exe ddclient
 
 rem win32::exe no longer works
 rem %PERL% -e "use Win32::Exe; $exe = Win32::Exe->new('..\..\..\target\ddclient.exe'); $exe->set_single_group_icon('..\resources\ddclient32.ico'); $exe->write;"

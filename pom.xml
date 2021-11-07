@@ -9,7 +9,7 @@
 		ddclient-nsis
 	</artifactId>
 	<version>
-		1.7.0-SNAPSHOT
+		1.7.0
 	</version>
 	<packaging>
 		pom
