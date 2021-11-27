@@ -5,7 +5,7 @@ This project creates a Windows-installable ddclient.exe file which can be used t
 
 ### Download
 
-A compiled version of the latest ddclient can be found at http://www.randomnoun.com/wpf/ddclient-1.6.0.exe
+A compiled version of the latest ddclient can be found at http://www.randomnoun.com/wpf/ddclient-1.7.0.exe
 
 ### What does it do ? How does it work ? Why is the sky blue ?
 
