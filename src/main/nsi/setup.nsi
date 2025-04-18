@@ -413,7 +413,8 @@ lblInstallNetworkService:
   ; ddclient now stores it's cache by default in the Local AppData folder
   ; WriteRegStr HKEY_LOCAL_MACINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\" -cache $\"$INSTDIR\ddclient.cache$\""
   ; WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -file $\"$INSTDIR\ddclient.conf$\""
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  ; WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "--foreground --appdatalog --file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
@@ -427,7 +428,8 @@ lblInstallLocalSystemService:
   IntCmp $0 0 +2
   MessageBox MB_OK|MB_ICONSTOP "Service installation failed: could not create service."
   WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "Application" "$INSTDIR\ddclient.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  ; WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "--foreground --appdatalog --file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
@@ -440,7 +442,8 @@ lblInstallCustomUserService:
   IntCmp $0 0 +2
   MessageBox MB_OK|MB_ICONSTOP "Service installation failed: could not create service."
   WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "Application" "$INSTDIR\ddclient.exe"
-  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  ; WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "-foreground -appdatalog -file $\"$INSTDIR\ddclient.conf$\""
+  WriteRegStr HKEY_LOCAL_MACHINE "SYSTEM\CurrentControlSet\Services\ddclient\Parameters" "AppParameters" "--foreground --appdatalog --file $\"$INSTDIR\ddclient.conf$\""
   DetailPrint "Starting service"
   SimpleSC::StartService "ddclient" "" 30
   Goto lblInstallServiceDone
