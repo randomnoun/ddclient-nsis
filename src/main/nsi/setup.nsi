@@ -364,7 +364,7 @@ Section "!ddclient" SecMain
   ; if I ever manage to fix this, then remove the two start menu delete sections in the in the uninstall section
   CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start ddclient console.lnk" "$INSTDIR\ddclient.exe" "-foreground -file $\"$INSTDIR\ddclient.conf$\" -cache $\"$LOCALAPPDATA\ddclient.cache$\""
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start ddclient console.lnk" "$INSTDIR\ddclient.exe" "--foreground --file $\"$INSTDIR\ddclient.conf$\" --cache $\"$LOCALAPPDATA\ddclient.cache$\""
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start ddclient service.lnk" "$SYSDIR\net.exe" "start ddclient"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop ddclient service.lnk" "$SYSDIR\net.exe" "stop ddclient"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Open ddclient.conf in notepad.lnk" "notepad.exe" "$INSTDIR\ddclient.conf"
