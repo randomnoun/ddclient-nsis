@@ -122,7 +122,7 @@ Function .onInit
     Settings for Dynamic DNS server:$\r$\n\
     /DDSERVER=xxx$\t= The name of the Dynamic DNS server$\r$\n\
     /DDCONNECTION=xxx = HTTP or HTTPS (default HTTP)$\r$\n\
-    /DDPROTOCOL=xxx = One of: concont, dnspark, dslreports1, dtdns, dyndns1, dyndns2, easydns, freedns, hammernode1, namecheap, noip, sitelutions, zoneedit1 (default dyndns2)$\r$\n\
+    /DDPROTOCOL=xxx = One of: 1984, changeip, cloudflare, cloudns, ddns.fm, digitalocean, dinahosting, directnic, dnsmadeeasy, dondominio, dslreports1, domeneshop, duckdns, dyndns1, dyndns2, easydns, freedns, freemyip, gandi, godaddy, he.net, hetzner, inwx, mythicdyn, namecheap, nfsn, njalla, noip, nsupdate, ovh, , orkbun, sitelutions, yandex, zoneedit1, keysystems, dnsexit2, regfishde, enom, infomaniak, emailonly (default dyndns2)$\r$\n\
     /DDUSERNAME=xxx = Username authentication to the Dynamic DNS server$\r$\n\
     /DDPASSWORD=xxx = Password authentication to the Dynamic DNS server$\r$\n\
     $\r$\n\
@@ -228,57 +228,86 @@ Function LeaveSelectDdserverPage
     ; concont|dnspark|dslreports1|dtdns|dyndns1|dyndns2|easydns|freedns|hammernode1|namecheap|noip|sitelutions|zoneedit1
     ; ListItems=changeip|cloudflare|cloudns|dinahosting|dnsmadeeasy|dondominio|dslreports1|duckdns|dyndns1|dyndns2|easydns|freedns|freemyip|gandi|googledomains|namecheap|nfsn|noip|nsupdate|ovh|sitelutions|woima|yandex|zoneedit1|dnsexit
     
-    
-    ${If} $R0 == 'changeip'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'changeip' protocol is used by DNS services offered by changeip.com."
+    ${If} $R0 == '1984'
+      SendMessage $1 ${WM_SETTEXT} 1 "STR:The '1984' protocol is used by DNS services offered by 1984.is."
+	${ElseIf} $R0 == 'changeip'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'changeip' protocol is used by DNS services offered by changeip.com."
 	${ElseIf} $R0 == 'cloudflare'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'cloudflare' protocol is used by DNS service offered by www.cloudflare.com."
 	${ElseIf} $R0 == 'cloudns'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'cloudns' protocol is used for ClouDNS (https://www.cloudns.net)."
+	${ElseIf} $R0 == 'ddns.fm'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'ddns.fm' protocol is used by the free dynamic DNS service available at ddns.fm."
+	${ElseIf} $R0 == 'digitalocean'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'digitalocean' protocol updates domains hosted by Digital Ocean (https://www.digitalocean.com/)."
 	${ElseIf} $R0 == 'dinahosting'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dinahosting' protocol is used by dinahosting (https://dinahosting.com)."
+	${ElseIf} $R0 == 'directnic'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'directnic' protocol is used by directnic (https://directnic.com)."
 	${ElseIf} $R0 == 'dnsmadeeasy'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dnsmadeeasy' protocol is used by the DNS Made Easy service at https://www.dnsmadeeasy.com."
 	${ElseIf} $R0 == 'dondominio'
-	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dondominio' protocol is used by DNS service offered by www.dondominio.com/ ."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dondominio' protocol is used by DNS service offered by www.dondominio.com/."
 	${ElseIf} $R0 == 'dslreports1'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dslreports1' protocol is used by a free DSL monitoring service offered by www.dslreports.com."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dslreports1' protocol is used by a free DSL monitoring service offered by www.dslreports.com."
+	${ElseIf} $R0 == 'domeneshop'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:API is documented here: https://api.domeneshop.no/docs/"
 	${ElseIf} $R0 == 'duckdns'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'duckdns' protocol is used by the free dynamic DNS service offered by www.duckdns.org."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'duckdns' protocol is used by the free dynamic DNS service offered by www.duckdns.org."
 	${ElseIf} $R0 == 'dyndns1'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns1' protocol is a deprecated protocol used by the used-to-be-free dynamic DNS service offered by www.dyndns.org. The 'dyndns2' should be used to update the www.dyndns.org service.  However, other services are also using this protocol so support is still provided by ddclient."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns1' protocol is a deprecated protocol used by the free dynamic DNS service offered by www.dyndns.org."
 	${ElseIf} $R0 == 'dyndns2'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns2' protocol is a newer low-bandwidth protocol used by the used-to-be-free dynamic DNS service offered by www.dyndns.org. It supports features of the older 'dyndns1' in addition to others.$\r$\nThe namingwords.com Dynamic DNS server supports this protocol."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dyndns2' protocol is a newer low-bandwidth protocol used by a free dynamic DNS service offered by www.dyndns.org."
 	${ElseIf} $R0 == 'easydns'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'easydns' protocol is used by the for fee DNS service offered by www.easydns.com."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'easydns' protocol is used by the for fee DNS service offered by www.easydns.com."
 	${ElseIf} $R0 == 'freedns'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'freedns' protocol is used by DNS services offered by freedns.afraid.org."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'freedns' protocol is used by DNS services offered by freedns.afraid.org."
 	${ElseIf} $R0 == 'freemyip'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'freemyip' protocol is used by the free dynamic DNS service available at freemyip.com."
 	${ElseIf} $R0 == 'gandi'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'gandi' protocol is used by the LiveDNS service offered by gandi.net."
-	${ElseIf} $R0 == 'googledomains'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'googledomains' protocol is used by DNS service offered by www.google.com/domains."
+	${ElseIf} $R0 == 'godaddy'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'godaddy' protocol is used by DNS service offered by https://www.godaddy.com/domains."
+	${ElseIf} $R0 == 'he.net'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'he.net' protocol is used by DNS service offered by dns.he.net."
+	${ElseIf} $R0 == 'hetzner'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'hetzner' protocol is used by DNS service offered by www.hetzner.com."
+	${ElseIf} $R0 == 'inwx'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'inwx' protocol is designed for DynDNS accounts at INWX <https://www.inwx.com/>"
+	${ElseIf} $R0 == 'mythicdyn'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'mythicdyn' protocol is used by the Dynamic DNS service offered by www.mythic-beasts.com."
 	${ElseIf} $R0 == 'namecheap'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'namecheap' protocol is used by DNS service offered by www.namecheap.com."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'namecheap' protocol is used by DNS service offered by www.namecheap.com."
 	${ElseIf} $R0 == 'nfsn'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'nfsn' protocol is used for the DNS service offered by www.nearlyfreespeech.net."
+	${ElseIf} $R0 == 'njalla'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'njalla' protocol is used by DNS service offered by njal.la."
 	${ElseIf} $R0 == 'noip'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'No-IP Compatible' protocol is used to make dynamic dns updates over an http request.  Details of the protocol are outlined at: http://www.no-ip.com/integrate/"
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'No-IP Compatible' protocol is used to make dynamic dns updates over an http request.  Details of the protocol are outlined at: https://www.noip.com/integrate/"
 	${ElseIf} $R0 == 'nsupdate'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'nsupdate' protocol is used to submit Dynamic DNS Update requests as defined in RFC2136 to a name server using the 'nsupdate' command line utility part of ISC BIND."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'nsupdate' protocol is used to submit Dynamic DNS Update requests as defined in RFC2136 to a name server using the 'nsupdate' command line utility part of ISC BIND."
 	${ElseIf} $R0 == 'ovh'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'ovh' protocol is used by DNS services offered by www.ovh.com."
+	${ElseIf} $R0 == 'porkbun'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'porkbun' protocol is used for porkbun (https://porkbun.com/)."
 	${ElseIf} $R0 == 'sitelutions'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'sitelutions' protocol is used by DNS services offered by www.sitelutions.com."
-	${ElseIf} $R0 == 'woima'
-	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'woima' protocol is used by the free dynamic DNS service offered by woima.fi."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'sitelutions' protocol is used by DNS services offered by www.sitelutions.com."
 	${ElseIf} $R0 == 'yandex'
 	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'yandex' protocol is used to by DNS service offered by Yandex."
 	${ElseIf} $R0 == 'zoneedit1'
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'zoneedit1' protocol is used by a DNS service offered by www.zoneedit.com."
-	${ElseIf} $R0 == 'dnsexit'  
-      SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dnsexit' protocol is the protocol used by the dynamic hostname services of the 'DnsExit' dns services."
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'zoneedit1' protocol is used by a DNS service offered by www.zoneedit.com."
+	${ElseIf} $R0 == 'keysystems'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'keysystems' protocol is used by the non-free dynamic DNS service offered by www.domaindiscount24.com and www.rrpproxy.net."
+	${ElseIf} $R0 == 'dnsexit2'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'dnsexit2' protocol is the updated protocol for the (free) dynamic hostname services of 'DNSExit' (www.dnsexit.com)."
+	${ElseIf} $R0 == 'regfishde'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'regfishde' protocol is used by the non-free dynamic DNS service offered by www.regfish.de."
+	${ElseIf} $R0 == 'enom'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'enom' protocol is used by DNS services offered by www.enom.com and their resellers."
+	${ElseIf} $R0 == 'infomaniak'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:The 'infomaniak' protocol is used by DNS services offered by www.infomaniak.com. (NB: OBSOLETE)"
+	${ElseIf} $R0 == 'emailonly'
+	  SendMessage $1 ${WM_SETTEXT} 1 "STR:Do not update Dynamic DNS, only send status emails."
     ${Else}
       ; MessageBox MB_OK "Invalid protocol selected"
     ${EndIf}  
