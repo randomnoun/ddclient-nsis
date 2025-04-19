@@ -148,13 +148,14 @@ sub subst_var {
     return $subst;
 }
 
-my $etc = subst_var('/home/knoxg/local/etc/ddclient', '/etc/ddclient');
-# my $cachedir = subst_var('/home/knoxg/local/var', '/var') . '/cache/ddclient';
+my $etc = subst_var('@confdir@', '/etc/ddclient');
+# my $cachedir = subst_var('@localstatedir@', '/var') . '/cache/ddclient';
 
 # now going to use CSIDL_LOCALAPPDATA
 # can't use constant because of 'use strict' for some reason
 my $cachedir = Win32::GetFolderPath(0x001C) . '\\'; # CSIDL_LOCALAPPDATA
-our @curl = (subst_var('/usr/bin/curl', 'curl'));
+# our @curl = (subst_var('@CURL@', 'curl'));
+our @curl = (Win32::GetFolderPath(37) . '\\curl.exe'); #  CSIDL_SYSTEM
 
 our $emailbody = '';
 my $last_emailbody = '';
