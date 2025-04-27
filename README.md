@@ -24,7 +24,7 @@ Prerequisites:
 * Java
    * and Maven
 * NSIS 2.x
-* and run `mvn build` and see what breaks
+* and run `mvn package` and see what breaks
 * You'll probably have to update some paths in the `pom.xml` or in `src\main\perl\make-ddclient-exe.bat`
 
 

@@ -2810,7 +2810,12 @@ sub curl_cmd {
 
     # Hard code to /tmp rather than use system TMPDIR to protect from malicious
     # shell instructions in TMPDIR environment variable.  All systems should have /tmp.
-    $tfh = File::Temp->new(DIR => '/tmp',
+    # set back to $ENV{TMP} for windows
+    my $tmpdir = $ENV{TMP};
+    if (!(defined $tmpdir)) { $tmpdir = $ENV{TEMP}; }
+    if (!(defined $tmpdir)) { $tmpdir = $ENV{USERPROFILE}; }
+      
+    $tfh = File::Temp->new(DIR => $tmpdir,
                            TEMPLATE => 'ddclient_XXXXXXXXXX');
     $tmpfile = $tfh->filename;
 
@@ -7736,3 +7741,4 @@ __PACKAGE__->main() unless caller() && caller() ne 'PAR';
 # vim: ai et ts=8 sw=4 tw=99 cc=+1 filetype=perl
 
 __END__
+
