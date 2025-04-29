@@ -387,7 +387,7 @@ Section "!ddclient" SecMain
   FileWrite $1 "use=web$\r$\n"
 
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 4" "State"
-  FileWrite $1 "web=$0/nic/checkip.html$\r$\n"
+  FileWrite $1 "web=freedns$\r$\n"
   FileWrite $1 "server=$0$\r$\n"
   ReadINIStr $0 "$PLUGINSDIR\select-ddserver.ini" "Field 12" "State"
   FileWrite $1 "protocol=$0 "
